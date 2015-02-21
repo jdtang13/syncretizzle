@@ -39,8 +39,4 @@ class D21_Wrapper
 		return result
 	end
 
-	def get_poll_info()
-
-	end
-
 end

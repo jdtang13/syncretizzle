@@ -19,6 +19,7 @@ class MarkovController < ApplicationController
 				return key
 			end 
 		end
+		return ""
 	end
 
 	#generate a line based on Markov assumption using prior and posterior probabilities
@@ -31,9 +32,19 @@ class MarkovController < ApplicationController
 			else
 				if !trans_table.key?(prev) then
 					word = word_collection.to_a.sample
+					# #puts "**********0"
+					# puts words.join(",")
+					# word = words[2]
+					# puts "**********1"
+					# puts word
+					# puts "**********2"
 				else
 					word = select_word(trans_table[prev])
 				end
+			end
+
+			if word.nil? then
+				break
 			end
 			puts "----------"
 			puts i
@@ -50,7 +61,7 @@ class MarkovController < ApplicationController
 	def process_line(entry, word_collection, trans_table, prior_prob)
 		words = entry.split(" ")
 		#store all words into word_collection
-		word_collection.add(words)
+		word_collection.merge(words)
 
 		prev = ""
 		words.each do |word|
@@ -110,7 +121,7 @@ class MarkovController < ApplicationController
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 10
+		blength = 15
 		length = rand(3) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
