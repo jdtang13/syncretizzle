@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require Underscore.js
+//= require Backbone.js
+//= require Firebase.js
+//= require BackboneFire.js
 //= require_tree .
