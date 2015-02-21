@@ -92,12 +92,12 @@ helper_method :current_or_new_room
   def next_room(with_retry = true)
     # Cache the value the first time it's gotten.
 
-    if (Room.last.users < room_max_size)
+    if (Room.last != nil and Room.last.users.size < room_max_size)
       @cached_next_room = Room.last
       session[:next_room_id] = @cached_next_room.id
       current_or_guest_user.room = @cached_next_room
     else
-      @cached_next_room = create_new_rom.id
+      @cached_next_room = create_new_room.id
     end
 
   rescue ActiveRecord::RecordNotFound # if session[:next_room_id] invalid
@@ -110,7 +110,7 @@ helper_method :current_or_new_room
     r = Room.create(:current_stage => 0)
     r.save!(:validate => false)
 
-    r.users.add(current_or_guest_user)
+    r.users << (current_or_guest_user)
     session[:next_room_id] = r.id
     current_or_guest_user.room = r
     r
