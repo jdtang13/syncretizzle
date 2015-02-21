@@ -59,7 +59,8 @@ class MarkovController < ApplicationController
 	end
 
 	def process_line(entry, word_collection, trans_table, prior_prob)
-		words = entry.split(" ")
+		newentry = entry.downcase.gsub(/[^a-z0-9\s]/i, '')
+		words = newentry.split(" ")
 		#store all words into word_collection
 		word_collection.merge(words)
 
@@ -121,7 +122,7 @@ class MarkovController < ApplicationController
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 15
+		blength = 25
 		length = rand(3) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
