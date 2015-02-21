@@ -107,6 +107,7 @@ class MarkovController < ApplicationController
 	end
 
 
+	# always use this function
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random

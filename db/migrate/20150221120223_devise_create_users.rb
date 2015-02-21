@@ -1,6 +1,21 @@
 class DeviseCreateUsers < ActiveRecord::Migration
   def change
+
+
+    create_table :rooms do |t|
+
+      t.integer :poll_id_first
+      t.integer :poll_id_second
+
+      t.integer :current_stage
+
+      t.timestamps
+    end
+
     create_table(:users) do |t|
+
+      t.belongs_to :room, index: true
+
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
@@ -42,5 +57,17 @@ class DeviseCreateUsers < ActiveRecord::Migration
     # add_index :users, :confirmation_token,   :unique => true
     # add_index :users, :unlock_token,         :unique => true
     # add_index :users, :authentication_token, :unique => true
+
+    create_table :posts do |t|
+      t.belongs_to :room, index: true
+      t.references :parent, index: true
+
+      t.integer :source
+      t.integer :generation
+      t.text :content
+
+      t.timestamps
+    end
+    
   end
 end

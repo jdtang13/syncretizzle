@@ -31,7 +31,8 @@ class WelcomeController < ApplicationController
   		# MERGING phase
   		@room.current_stage = 3
 
-  		@result = markov(first, second)
+  		content = MarkovController.generate(first.text, second.text)
+  		@result = Post.new(:content => content)
 
   	end
 

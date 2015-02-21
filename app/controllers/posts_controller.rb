@@ -14,6 +14,14 @@ class PostsController < ApplicationController
 
   def generate_choices(category)
 
+      category_name = category(category)
+
+      posts = []
+      p = Post.new(:content => "In some applications, it's useful to have a guest User object 
+        to pass around even before the (human) user has registered or logged in.")
+
+      posts.add(p)
+      return posts
   end
 
   # GET /posts/new
