@@ -12,6 +12,10 @@ class PostsController < ApplicationController
   def show
   end
 
+  def generate_choices(category)
+
+  end
+
   # GET /posts/new
   def new
     @post = Post.new
