@@ -16,6 +16,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.belongs_to :room, index: true
 
+      t.integer :room_id
+
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""

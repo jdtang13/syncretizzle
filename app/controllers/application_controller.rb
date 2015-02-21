@@ -92,7 +92,7 @@ helper_method :current_or_new_room
   def next_room(with_retry = true)
     # Cache the value the first time it's gotten.
 
-    if (Room.last != nil and Room.last.users.size < room_max_size)
+    if (Room.last != nil and Room.last.users.count < room_max_size)
       @cached_next_room = Room.last
       session[:next_room_id] = @cached_next_room.id
       current_or_guest_user.room = @cached_next_room
