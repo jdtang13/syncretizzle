@@ -1,3 +1,104 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 50px;
+}
+
+#text_boxes {
+	height: 100%;
+}
+.row {
+	margin-top: 20px;
+	position: relative;
+	height: 25%;
+	.right {
+		margin-left: 32%;
+	}
+	.box {
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		background: #FFFFFF;
+		border: 1px solid #979797;
+		border-radius: 8px;
+		width: 30%;
+		height: 100%;
+		p {
+			margin: 20px;
+			font-family: Helvetica;
+			font-size: 20px;
+			color: #000000;
+			line-height: 24px;
+		}
+	}
+}
+
+.circle {
+    background: #f00;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+	background: #9013FE;
+	border: 1px solid #979797;
+	display: inline-block;
+	p {
+		margin-top: 13px;
+		font-family: Helvetica;
+		font-size: 20px;
+		color: #FFFFFF;
+		line-height: 24px;
+	}
+}
+
+#right_sidebar {
+	width: 33%;
+	margin: 50px 50px 0px 0px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	#round {
+		/* Facebook Round: */
+		font-family: Helvetica-Bold;
+		font-size: 25px;
+		color: #4A90E2;
+		line-height: 30px;
+		margin: 0px 0px 25px 0px;
+	}
+	#room {
+		/* Room ID: 12345: */
+		font-family: Lato-Regular;
+		font-size: 25px;
+		color: #000000;
+		line-height: 30px;	
+		margin: 0px 0px 25px 0px;
+	}
+	ul {
+		list-style-type: none;
+		li {
+			padding: 15px;
+			.status {
+				padding: 0px 0px 0px 20px;
+				display: inline-block;
+			}
+		}
+	}
+	h1 {
+		/* Syncretizzle: */
+		font-family: Lato-Bold;
+		font-size: 50px;
+		color: #9013FE;
+		line-height: 60px;
+		text-align: center;
+		margin: 0px 0px 25px 0px;
+	}
+	p {
+		text-align: center;
+	}
+}
