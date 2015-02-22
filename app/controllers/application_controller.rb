@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   def category(name)
 
   	case name
-  	when :social_media
+  	when :facebook
   		return "SM"
   	when :classics
   		return "CL"
@@ -19,6 +19,45 @@ class ApplicationController < ActionController::Base
   	end
 
   end
+
+def query_size
+	return 10
+end
+
+  helper_method :generate_choices
+  def generate_choices(user, category)
+
+      posts = []
+
+      case category
+      when :facebook
+
+        # feed in public statuses from groups, celebrities, and the few people who make public statuses
+        # volunteer your own statuses
+
+        # TODO: get this data from facebook!
+          posts = Post.where(source: 1)
+          posts = posts.sample(10)
+
+       # todo: twitter support? maybe voters choose between facebook and twitter?
+
+      when :classics
+
+          #find 10 random posts with source = 0 (0 is classics)
+          posts = Post.where(source: 0)
+          posts = posts.sample(10)
+
+      when :journalism
+
+          #posts are the top 10-15 headlines from newspapers in mashery
+
+      else
+
+      end
+      
+      return posts
+  end
+
 
 helper_method :room_max_size
 def room_max_size

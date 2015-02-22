@@ -1,40 +1,89 @@
 class WelcomeController < ApplicationController
-  def index
+  	
+  	def index
 
-  	@user = current_or_guest_user
-  	@room = current_room
+  		#refresh()
+  		# ^^^note: don't do this, it only works if you mash f5
 
-  	# wait for updates... refresh the room size continuously
+	  	@user = current_or_guest_user
+	  	@room = current_room
 
-  	if (@room.users.size == room_max_size)
-  		# begin the games
+	  	# note: only scrape data from pages that are listed as public (e.g., friends who made public statuses, pages to follow, public group posts)
 
-  		# FACEBOOK picker
-  		@room.current_stage = 1
+	  	# TODO: send this off to firebase!!
+	  	@first_round = generate_choices(@user, :facebook)
+	  	@second_round = generate_choices(@user, :classics)
 
-  		# generate choices
-  		@posts = generate_choices(category[:social_media]).sort_by { |p| p.upvotes - p.downvotes}
+  		# launch firebase interface
+  		# seed firebase with data: usernames, blocks of text. controller needs to send all of this to firebase
+  		
 
-  		# wait for people to vote...
+  		# firebase and browser interact continuously to play the game
 
-  		first = @posts[0]
+  		# game has finished, now firebase sends the data to controller
+	  	# TODO: get this selection set from firebase!!
+	  	first = @first_round.sample(5)
+	  	second = @second_round.sample(5)
 
-  		# CLASSICS picker
-  		@room.current_stage = 2
+ 		# controller processes and saves the results, sends it to MarkovController
+  		# markov is generated in final screen for all to view, saved to database
 
-  		@posts = generate_choices(category[:classics]).sort_by { |p| p.upvotes - p.downvotes}
+		content = "HELLO!" #MarkovController.generate(first, second)
+	  	@result = Post.new(:content => content)
 
-  		# wait for people to vote....
+  	end
 
-  		second = @posts[0]
+  	# Note: you need to mash F5 for this strategy to work; does not update on-screen, must manually refresh.
+  	def refresh
 
-  		# MERGING phase
-  		@room.current_stage = 3
+	  	# wait for updates... refresh the room size continuously
 
-  		content = MarkovController.generate(first.text, second.text)
-  		@result = Post.new(:content => content)
+	  	if (@room.current_stage == 0 or @room.current_stage == nil)
+
+	  		if (@room.users.size == room_max_size)
+
+		  		# begin the games automatically
+		  		# FACEBOOK picker
+		  		@room.current_stage = 1
+
+		  		# generate choices
+		  		@posts = generate_choices(category[:facebook]).sort_by { |p| p.upvotes - p.downvotes }
+	  		end
+
+		end
+
+		if (@room.current_stage == 1)
+
+	  		# wait for people to vote...
+
+	  		first = @posts[0]
+
+	  		# CLASSICS picker
+	  		# onclick, trigger this
+	  		@room.current_stage = 2
+
+	  		@posts = generate_choices(category[:classics]).sort_by { |p| p.upvotes - p.downvotes }
+
+	  	end
+
+	  	if (@room.current_stage == 2)
+	  		# wait for people to vote....
+
+	  		second = @posts[0]
+
+	  		# MERGING phase
+	  		# onclick, trigger this
+	  		@room.current_stage = 3
+
+	  	end
+
+	  	if (@room.current_stage == 3)
+
+	  		content = MarkovController.generate(first.text, second.text)
+	  		@result = Post.new(:content => content)
+
+	  	end
 
   	end
 
   end
-end
