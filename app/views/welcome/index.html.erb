@@ -86,3 +86,24 @@ var arr = [
 		});
 	});
 </script>
+
+<h2><%= @title %></h2>
+
+<!--<p><%= @content %></p>-->
+
+<p><%= simple_format(@processed) %></p>
+
+<h2>Round 1: Facebook</h2>
+
+<% @first_round.each do |p| %>
+<%= p.content %> </br></br>
+<% end %>
+
+
+<h2>Round 2: Humanities</h2>
+<% @second_round.each do |p| %>
+<%= p.content %> </br></br>
+<% end %>
+
+
+<p></p>
