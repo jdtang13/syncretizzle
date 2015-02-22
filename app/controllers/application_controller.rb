@@ -281,7 +281,7 @@ helper_method :current_or_new_room
 	end
 
 	#simplified version of process_line, only calculates transition
-	def process(data, trans_table)
+	def process_trans(data, trans_table)
 		newentry = data.downcase.gsub(/[^a-z0-9\s'\.,;-]/i, '')
 		words = newentry.split(" ")
 
@@ -408,8 +408,8 @@ helper_method :current_or_new_room
 	def get_trans_table
 		require 'set'
 		trans_table = Hash.new
-		data = File.read('poem_training.txt')
-		process(data, trans_table)
+		data = File.read('db/poem_training.txt')
+		process_trans(data, trans_table)
 		normalize_table(trans_table)
 		return trans_table
 	end
@@ -427,10 +427,10 @@ helper_method :current_or_new_room
 		trans_table = Hash.new
 		prior_prob = Hash.new
 		arr1.each do |entry|
-			process_line(entry, word_collection, trans_table, prior_prob)
+			process_line(entry.content, word_collection, trans_table, prior_prob)
 		end
 		arr2.each do |entry|
-			process_line(entry, word_collection, trans_table, prior_prob)
+			process_line(entry.content, word_collection, trans_table, prior_prob)
 		end
 
 		#normalize necessary structure
