@@ -28,7 +28,10 @@ class WelcomeController < ApplicationController
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
 
-		@content = generate(first, second)
+  		arr = generate(first, second)
+
+		@content = arr[0]
+		@title = arr[1].titleize
 
 	  	@processed = ""
 
