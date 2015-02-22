@@ -1,0 +1,238 @@
+/* line 1, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 9, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* line 15, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* line 21, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+a {
+  color: #000;
+}
+/* line 23, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+a:visited {
+  color: #666;
+}
+/* line 26, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+a:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+/* line 33, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+/* line 38, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+#notice {
+  color: green;
+}
+
+/* line 42, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+/* line 48, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+/* line 55, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  color: #fff;
+}
+/* line 65, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/scaffolds.css.scss */
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+/* line 6, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 10, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+body {
+  margin: 50px;
+  background-color: #f2f2f2;
+}
+
+/* line 15, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#text_boxes {
+  height: 100%;
+}
+/* line 17, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#text_boxes ul {
+  list-style-type: none;
+}
+
+/* line 22, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#js-app-container {
+  height: 100%;
+}
+
+/* line 26, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#list2 {
+  padding-top: 20px;
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 100%;
+}
+
+/* line 34, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.btn--disabled .imageDiv {
+  display: none;
+}
+
+/* line 38, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box {
+  background: #FFFFFF;
+  width: 25%;
+}
+/* line 43, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box.up_selected {
+  background: #B4FF5D;
+}
+/* line 46, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box.down_selected {
+  background: #FFA2A2;
+}
+/* line 50, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box p {
+  padding: 30px;
+  font-family: Helvetica;
+  font-size: 15px;
+  color: #000000;
+  line-height: 18px;
+}
+/* line 57, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+/* line 62, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.box .imageDiv {
+  padding: 5px 0px 10px 30px;
+}
+
+/* line 67, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.circle {
+  background: #f00;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #9013FE;
+  border: 1px solid #979797;
+  display: inline-block;
+}
+/* line 75, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+.circle p {
+  margin-top: 13px;
+  font-family: Helvetica;
+  font-size: 20px;
+  color: #FFFFFF;
+  line-height: 24px;
+}
+
+/* line 84, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar {
+  width: 33%;
+  margin: 50px 50px 0px 0px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/* line 90, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar #round {
+  /* Facebook Round: */
+  font-family: Helvetica-Bold;
+  font-size: 25px;
+  color: #4A90E2;
+  line-height: 30px;
+  margin: 0px 0px 25px 0px;
+}
+/* line 98, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar #room {
+  /* Room ID: 12345: */
+  font-family: Lato-Regular;
+  font-size: 25px;
+  color: #000000;
+  line-height: 30px;
+  margin: 0px 0px 25px 0px;
+}
+/* line 106, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar ul {
+  list-style-type: none;
+}
+/* line 108, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar ul li {
+  padding: 15px;
+}
+/* line 110, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar ul li .status {
+  padding: 0px 0px 0px 20px;
+  display: inline-block;
+}
+/* line 116, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar h1 {
+  /* Syncretizzle: */
+  font-family: Lato-Bold;
+  font-size: 50px;
+  color: #9013FE;
+  line-height: 60px;
+  text-align: center;
+  margin: 0px 0px 25px 0px;
+}
+/* line 125, C:/Users/Jonathan/Documents/GitHub/syncretizzle/app/assets/stylesheets/welcome.css.scss */
+#right_sidebar p {
+  text-align: center;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ */
+
