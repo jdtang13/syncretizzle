@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  	
+
   	def index
 
   		#refresh()
@@ -28,8 +28,33 @@ class WelcomeController < ApplicationController
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
 
-		content = generate(first, second)
-	  	@result = Post.new(:content => content)
+		@content = generate(first, second)
+	  	@result = Post.new(:content => @content)
+
+	  	@processed = @content[1..@content.length]
+
+	 	#@processed.gsub!(" i ", " I ")
+	 	@processed.gsub!(/^ */, "")
+
+	 	#@processed.gsub!(/[,;:-]$/, ".")
+
+	  	if (@content.include?(". "))
+		  	for string in @processed.split(". ")
+
+		  		string.gsub!(" i ", " I ")
+		  		string.gsub!(/[,;:-]$/, ".")
+
+		  		@processed << string.capitalize << ". "
+		  	end
+		  else 
+		  	@processed = @processed.capitalize
+	 	end
+
+	 	if(@processed[@processed.length - 1] != '.' and @processed.length > 1 and @processed[@processed.length - 2] != '.')
+	 		@processed << '.'
+	 	end
+
+	 	@processed[0] = @processed[0].capitalize
 
   	end
 
