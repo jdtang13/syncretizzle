@@ -293,7 +293,19 @@ $(function(){
 				fb_votes = base_votes;
 			}
 			if(snapshot.val() === 'final') {
+				console.log("FIRING AJAX");
 				lit_votes = base_votes;
+				var obj = {};
+				obj.fb_data = fb_data;
+				obj.lit_data = lit_data;
+				obj.fb_votes = fb_votes;
+				obj.lit_votes = lit_votes;
+				$.ajax({
+					type: "POST",
+					url: "/submit",
+					dataType: "json",
+					data: JSON.stringify(obj)
+				});
 			}
 			round = snapshot.val();
 			if(round === 'lit') {
@@ -349,6 +361,12 @@ $(function(){
 			if(!snapshot.val()) return;
 			$("#waiting").css('display', 'none');
 			$("#ready").css('display', 'none');
+			if(round === "fb") {
+				fb_data = snapshot.val();
+			}
+			if(round === "lit") {
+				lit_data = snapshot.val();
+			}
 			this.dataTextSegmentListContainer = new TextSegmentListContainer({'model': this.model, 
 				'textlist_model': this.textlist_model,'segments': snapshot.val(), 'user': this.user});
 			this.dataTextSegmentListContainer.render();
