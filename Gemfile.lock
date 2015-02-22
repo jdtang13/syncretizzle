@@ -29,7 +29,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.7)
     arel (5.0.1.20140414130214)
-    awesome_print (1.6.1)
     bcrypt (3.1.10)
     bcrypt (3.1.10-x86-mingw32)
     bcrypt-ruby (3.1.5)
@@ -53,9 +52,6 @@ GEM
     execjs (2.3.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    gingerice (1.2.2)
-      addressable
-      awesome_print
     hashie (3.4.0)
     hike (1.2.3)
     httparty (0.13.3)
@@ -70,6 +66,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.2)
     jwt (1.2.1)
+    koala (1.11.1)
+      addressable
+      faraday
+      multi_json
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -165,10 +165,10 @@ DEPENDENCIES
   bcrypt (~> 3.1.10)
   coffee-rails (~> 4.0.0)
   devise
-  gingerice
   httparty
   jbuilder (~> 2.0)
   jquery-rails
+  koala
   omniauth-facebook
   pg
   rails (= 4.1.4)
