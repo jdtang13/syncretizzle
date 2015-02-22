@@ -16,10 +16,15 @@ def self.from_omniauth(auth, current) #note: current is current or guest
   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
     user.email = auth.info.email
     
+    if (auth.info.email == nil)
+    	user.email = "guest_fb_#{Time.now.to_i}#{rand(100)}@example.com"
+    end 
+
     # user.password = Devise.friendly_token[0,20]
 
     user.name = auth.info.name   # assuming the user model has a name
     user.image = auth.info.image # assuming the user model has an image
+    user.save!(:validate => false)
   end
 end
 
