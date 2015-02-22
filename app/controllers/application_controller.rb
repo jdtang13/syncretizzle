@@ -157,16 +157,41 @@ helper_method :current_or_new_room
 
   # JERRY'S MARKOV CODE !!!
 
-  #checks if letter
+	#checks if letter
 	def letter?(lookAhead)
 		lookAhead =~ /[A-Za-z]/
 	end
 	#select a word from a given array of words and their probability distribution
-	def select_word(hash)
-		puts "SELECTING WORD"
+	def select_word(prev, hash, bg_trans_table)
+		#puts "SELECTING WORD"
+
+		#if using background trans table, create new trans table and set hash to it
+		#if entry in bg table exists then use that entry, otherwise
+		#use existing entry
+		hash2 = Hash.new
+		hash.each_key do |key|
+			if !bg_trans_table[prev].nil? && !bg_trans_table[prev][key].nil? then
+				hash2[key] = bg_trans_table[prev][key]
+				#hash2[key] = hash[key]
+			else 
+				hash2[key] = hash[key]
+			end
+		end
+
+		normalize_arr(hash2)
+
 		cumu_hash = Hash.new
 		cumu = 0
-		hash.each do |key, value|
+		# hash2.each do |key, value|
+		# 	puts "KEY: "
+		# 	puts key
+		# 	puts "VALUE: "
+		# 	puts value
+		# 	cumu += value
+		# 	cumu_hash[key] = cumu
+		# end
+
+		hash2.each do |key, value|
 			puts "KEY: "
 			puts key
 			puts "VALUE: "
@@ -174,6 +199,7 @@ helper_method :current_or_new_room
 			cumu += value
 			cumu_hash[key] = cumu
 		end
+
 
 		prob = rand()
 		cumu_hash.each do |key, value|
@@ -185,48 +211,17 @@ helper_method :current_or_new_room
 	end
 
 	#generate a line based on Markov assumption using prior and posterior probabilities
-	def line_generate(length, word_collection, trans_table, prior_prob)
+	def line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
 		result = ""
 		prev = ""
 		for i in 1..length
 			if i == 1 then
-				word = select_word(prior_prob)
+				word = select_word("", prior_prob, bg_trans_table)
 			else
 				if !trans_table.key?(prev) then
 					word = word_collection.to_a.sample
-
-					# #puts "**********0"
-					# puts words.join(",")
-					# word = words[2]
-					# puts "**********1"
-					# puts word
-					# puts "**********2"
-
-					#probabilities for punctuation
-					# prob = rand()
-					# if !letter?(prev) then
-
-					# elsif prob < 0.01 then
-					# 	word = "."
-					# elsif prob < 0.025 then
-					# 	word = ","
-					# elsif prob < 0.03 then
-					# 	word = ";"
-					# end
 				else
-					word = select_word(trans_table[prev])
-
-					#probabilities for punctuation
-					# prob = rand()
-					# if !letter?(prev) then
-
-					# elsif prob < 0.005 then
-					# 	word = "."
-					# elsif prob < 0.015 then
-					# 	word = ","
-					# elsif prob < 0.020 then
-					# 	word = "-"
-					# end
+					word = select_word(prev, trans_table[prev], bg_trans_table)
 				end
 			end
 
@@ -245,6 +240,28 @@ helper_method :current_or_new_room
 		return result
 	end
 
+	#simplified version of process_line, only calculates transition
+	def process(data, trans_table)
+		newentry = data.downcase.gsub(/[^a-z0-9\s\.,;-]/i, '')
+		words = newentry.split(" ")
+
+		prev = ""
+		words.each do |word|
+			if prev == "" then 
+				next
+			end
+			# store trans probs
+			if !trans_table.has_key?(prev) then
+				trans_table[prev] = Hash.new
+			end
+			if !trans_table[prev].has_key?(word) then
+				trans_table[prev][word] = 1
+			else
+				trans_table[prev][word] += 1
+			end
+			prev = word
+		end
+	end
 
 	def process_line(entry, word_collection, trans_table, prior_prob)
 
@@ -296,9 +313,9 @@ helper_method :current_or_new_room
 	end
 
 	def normalize_arr(arr)
-		total = 0
+		total = 0.0
 		arr.each_value do |entry|
-			if entry.kind_of? Integer
+			if (entry.kind_of?(Integer) || entry.kind_of?(Float)) then
 				total += entry
 			end
 		end
@@ -307,22 +324,32 @@ helper_method :current_or_new_room
 		end
 	end
 
+	def get_trans_table
+		require 'set'
+		trans_table = Hash.new
+		data = File.read('poem_training.txt')
+		process(data, trans_table)
+		normalize_table(trans_table)
+		return trans_table
+	end
+
 
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 30
-		length = rand(3) + blength
+		blength = 50
+		length = rand(10) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
+		bg_trans_table = get_trans_table
 		word_collection = Set.new
 		trans_table = Hash.new
 		prior_prob = Hash.new
 		arr1.each do |entry|
-			process_line(entry.content, word_collection, trans_table, prior_prob)
+			process_line(entry, word_collection, trans_table, prior_prob)
 		end
 		arr2.each do |entry|
-			process_line(entry.content, word_collection, trans_table, prior_prob)
+			process_line(entry, word_collection, trans_table, prior_prob)
 		end
 
 		#normalize necessary structure
@@ -330,7 +357,8 @@ helper_method :current_or_new_room
 		normalize_arr(prior_prob)
 
 		#generate line
-		return line_generate(length, word_collection, trans_table, prior_prob)
+		result = line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
+		return result
 	end
 
 
