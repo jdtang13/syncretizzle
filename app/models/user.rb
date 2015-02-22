@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
 def self.from_omniauth(auth, current) #note: current is current or guest
   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+
     user.email = auth.info.email
     
     if (auth.info.email == nil)
@@ -22,12 +23,15 @@ def self.from_omniauth(auth, current) #note: current is current or guest
 
 	# transfer users
     user.room_id = current.room_id 
-    Room.find_by_id(current.room_id).users.destroy(current) 
+    #Room.find_by_id(current.room_id).users.destroy(current) 
 
     # user.password = Devise.friendly_token[0,20]
 
     user.name = auth.info.name   # assuming the user model has a name
     user.image = auth.info.image # assuming the user model has an image
+
+    user.fb_token = auth['credentials']['token']
+
     user.save!(:validate => false)
   end
 end

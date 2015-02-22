@@ -25,6 +25,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :image
       t.string :password
 
+      t.string :fb_token #for omni and koala
+
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
