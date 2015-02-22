@@ -12,7 +12,7 @@ $(function(){
 	window.SyncApp = SyncApp;
 	var BASE_FIREBASE_URL = "https://syncretizzle.firebaseio.com/";
 	var baseRef = new Firebase(BASE_FIREBASE_URL);
-
+	var readyToStartGame = false;
 	//Global counts
 	up_count = 4;
 	down_count = 2;
@@ -24,7 +24,7 @@ $(function(){
 		defaults: function() {
 			return {
 				user_initials: "",
-				user_status: "Voting on passages ...",
+				user_status: "Not Ready to Start Game",
 				user_votes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 			};
 		}
@@ -124,7 +124,6 @@ $(function(){
 				}
 				return data;
 			});
-			var statusRef = new Firebase(this.curr_url + this.user.id + "/user_status/");
 			if(down_count === 0 && up_count === 0) {
 				Backbone.pubSub.trigger("readyUser");
 			}
@@ -182,15 +181,48 @@ $(function(){
 			this.user = this.userListModel.create({'user_initials': this.user_initials});
 
 			this.textListModel = new TextSegmentList({'room_id': this.room_id, 'model': this.model});
-
-			var disconnectRef = new Firebase(BASE_FIREBASE_URL + "room-" + this.room_id + "/users/" + this.user.id);
-			disconnectRef.onDisconnect().remove();
+			this.allUsersRef = new Firebase(BASE_FIREBASE_URL + "room-" + this.room_id + "/users/");
+			this.userRef = new Firebase(BASE_FIREBASE_URL + "room-" + this.room_id + "/users/" + this.user.id);
+			this.userRef.onDisconnect().remove();
 			this.dataTextSegmentListContainer = new TextSegmentListContainer({'model': this.model, 
 				'textlist_model': this.textlist_model,'segments': this.data_text, 'user': this.user});
 			this.userListContainer = new UserListContainer({'userlist_model': this.userListModel});			
 			this.render();
 			this.model.on('all', this.renderUsers, this);
 			Backbone.pubSub.on("readyUser", this.checkEnd, this);
+			var that = this;
+			$("#ready").click(function() {
+				that.userRef.transaction(function(data) {
+					data.user_status = "Ready to Start Game";
+					return data;
+				});
+				if(that.checkAllUsersStart) {
+					readyToStartGame = true;
+					that.allUsersRef.transaction(function(data) {
+						var new_data = {};
+						for(key in data) {
+							if(data[key].id) {
+								data[key].user_status = "Voting on Text Segments ...";
+								new_data[key] = data[key];
+							}
+						}
+						return new_data;	
+					});
+					that.render();
+				}
+			});
+		},
+		checkAllUsersStart: function() {
+			for(var i = 0; i < this.userListModel.models.length; i++) {
+				var element = this.userListModel.models[i];
+				if(!element.id) {
+					continue;
+				}
+				if(element.attributes.user_status !== 'Ready to Start Game') {
+					return false;
+				}
+			}
+			return true;
 		},
 		checkAllUsersReady: function() {
 			for(var i = 0; i < this.userListModel.models.length; i++) {
@@ -207,7 +239,7 @@ $(function(){
 		moveToNextRound: function() {
 			alert("MOVING");
 		},
-		checkEnd: function(statusRef) {
+		checkEnd: function() {
 			$(".box").addClass("btn--disabled");
 			if(this.checkAllUsersReady()) {
 				var that = this;
@@ -226,7 +258,12 @@ $(function(){
 			this.userListContainer.render();
 		},
 		render: function() {
-			this.dataTextSegmentListContainer.render();
+			if(!readyToStartGame) {
+				//Put some message here
+			}
+			if(readyToStartGame) {
+				this.dataTextSegmentListContainer.render();
+			}
 			this.userListContainer.render();
 		}
 	})
