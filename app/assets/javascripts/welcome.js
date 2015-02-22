@@ -116,11 +116,13 @@ $(function(){
 			var index = parseInt(idName.slice(-1));
 			var that = this;
 			var userRef = new Firebase(this.curr_url + this.user.id);
-			userRef.transaction(function(data) {
-				vote_value = data.user_votes[index-1];
-				if(vote_value === parseInt(vote_value, 10)) {
-					data.user_votes[index - 1] = vote_value + 1;
+			var votesRef = new Firebase(this.curr_url + this.user.id + "/user_votes/" + (index - 1));
+			votesRef.transaction(function(data) {
+				if(data === parseInt(data, 10)) {
+					return data + 1;
 				}
+			});
+			userRef.transaction(function(data) {
 				if(down_count === 0 && up_count === 0) {
 					data.user_status = "Ready! ";
 				}
@@ -294,6 +296,18 @@ $(function(){
 			}
 			if(snapshot.val() === 'final') {
 				lit_votes = base_votes;
+				window.obj = {};
+				obj.fb_data = fb_data;
+				obj.lit_data = lit_data;
+				obj.fb_votes = fb_votes;
+				obj.lit_votes = lit_votes;
+				$.post("/submit", {data2: JSON.stringify(window.obj)}, function(returnedData) {
+					$(".list").css("display", "none");
+					$("#header_result").css("display", "block");
+					$("#paragraph_result").css("display", "block");
+					$("#header_result").html(returnedData['title']);
+					$("#paragraph_result").html(returnedData['text']);
+				});
 			}
 			round = snapshot.val();
 			if(round === 'lit') {
@@ -349,6 +363,12 @@ $(function(){
 			if(!snapshot.val()) return;
 			$("#waiting").css('display', 'none');
 			$("#ready").css('display', 'none');
+			if(round === "fb") {
+				fb_data = snapshot.val();
+			}
+			if(round === "lit") {
+				lit_data = snapshot.val();
+			}
 			this.dataTextSegmentListContainer = new TextSegmentListContainer({'model': this.model, 
 				'textlist_model': this.textlist_model,'segments': snapshot.val(), 'user': this.user});
 			this.dataTextSegmentListContainer.render();
@@ -384,6 +404,8 @@ $(function(){
 	}
 
 	SyncApp.boot = function(options) {
+		$("#paragraph_result").css('display', 'none');
+		$("#header_result").css('display', 'none');
 		this.the_options = options;
 		this.user_initials = options.user_initials;
 		round = options.round;

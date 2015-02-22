@@ -431,6 +431,71 @@ helper_method :current_or_new_room
 
 		return [result, title]
 	end
+	def generate2(arr1, arr2)
+		require 'set'
+		#length can be random
+		blength = 50
+		length = rand(10) + blength
 
+		#go through each array, separate into words, and create transition probabilities 
+		bg_trans_table = get_trans_table
+		word_collection = Set.new
+		trans_table = Hash.new
+		prior_prob = Hash.new
+		arr1.each do |entry|
+			process_line(entry, word_collection, trans_table, prior_prob)
+		end
+		arr2.each do |entry|
+			process_line(entry, word_collection, trans_table, prior_prob)
+		end
 
+		#normalize necessary structure
+		normalize_table(trans_table)
+		normalize_arr(prior_prob)
+
+		#generate line
+		titlelength = rand(5)+1
+		title = line_generate(titlelength, word_collection, trans_table, prior_prob, bg_trans_table)
+		title = title.gsub(/[^a-z0-9\s]/i, '').split.map(&:capitalize)*' '
+		result = line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
+
+		processed = ""
+
+	 	#@processed.gsub!(" i ", " I ")
+
+	 	newline = "<br />"
+
+	 	min_line = 5
+	 	max_line = 10
+	 	rng = Random.new
+
+	 	# build lines slowly
+	 	current_line = ""
+	 	count = 0
+	 	i = 0
+	 	for word in result.split(" ")
+
+	 		if (word == "i")
+	 			word = "I"
+	 		end
+
+	 		current_line << word + " "
+
+	 		if (word.match(/[?.,;:-]/) or count > max_line)
+
+		 		current_line << newline
+	 			current_line[0] = current_line[0].capitalize
+	 			processed << current_line
+
+	 			current_line = ""
+	 			count = 0
+	 		end
+	 		count += 1
+	 		i += 1
+	 	end
+
+	 	processed.gsub!(/[,.;:-]? *<br \/> *$/, ".")
+
+			return [processed, title]
+		end
 end

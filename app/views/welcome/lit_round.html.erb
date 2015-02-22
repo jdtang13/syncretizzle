@@ -1,0 +1,90 @@
+<div id="js-app-container">
+	<div id="text_boxes">
+		<% #POPULATED BY BACKBONE### %>
+		<ul class="list" id="list1">
+			<li class="box" id="box1">
+			</li>
+			<li class="box" id="box3">
+			</li>
+			<li class="box" id="box5">
+			</li>
+			<li class="box" id="box7">
+			</li>
+			<li class="box" id="box9">
+			</li>
+		</ul>
+		<ul class="list" id="list2">
+			<li class="box" id="box2">
+			</li>
+			<li class="box" id="box4">
+			</li>
+			<li class="box" id="box6">
+			</li>
+			<li class="box" id="box8">
+			</li>
+			<li class="box" id="box10">
+			</li>
+		</ul>
+	</div>
+
+	<div id="right_sidebar">
+		<h1>Syncretizzle</h1>
+		<p id="round">Facebook Round</p>
+		<p id="room">Room ID: 12345</p>
+		<ul>
+			<% #POPULATED BY BACKBONE### %>
+		</ul>
+		<div>
+			<p>Up Votes Left:   <span id="upvote_count">3</span></p>
+			<p>Down Votes Left:   <span id="downvote_count">3</span></p>
+		</div>
+	</div>
+</div>
+<% #JS TEMPLATES ################ %>
+
+<% #Render one user %>
+
+<script type="text/template" id="tpl-user-item">
+	<li>
+		<div class="circle">
+			<p><%%= user_initials %></p>
+		</div>
+		<p class="status"><%%= user_status %></p>
+	</li>
+</script>
+
+<% #Render one text item %>
+<script type="text/template" id="tpl-text-item">
+	<p>
+		<%%= text_segment %>
+	</p>
+	<div class="imageDiv">	
+		<%= image_tag "down_arrow.png", :class => "downvote_btn" %>
+		<%= image_tag "up_arrow.png", :class=> "upvote_btn" %>
+	</div>
+</script>
+
+
+<% #BACKBONE INITIALIZATION ################ %>
+<script>
+var arr = [
+"It is through hearing stories about wicked stepmothers, lost children, good but misguided kings, wolves that suckle twin boys, youngest sons who receive no inheritance but must make their own way in the world, and eldest sons who waste their inheritance on riotous living and go into exile to live with the swine, that children learn or mislearn both what a child and what a parent is, what the cast of characters may be in the drama into which they have been born and what the ways of the world are.",
+"I could not become anything; neither good nor bad; neither a scoundrel nor an honest man; neither a hero nor an insect. And now I am eking out my days in my corner, taunting myself with the bitter and entirely useless consolation that an intelligent man cannot seriously become anything, that only a fool can become something.",
+"Unless there is a telos which transcends the limited goods of practices by constituting the good of a whole human life, the good of a human life conceived as a unity, it will both be the case that a certain subversive arbitrariness will invade the moral life and that we shall be unable to specify the context of certain virtues adequately.",
+"The present is intelligible only as a commentary upon and response to the past in which the past, if necessary and if possible, is corrected and transcended.",
+"Right when I was being shot and ever since, I knew that I was watching television. The channels switch, but it's all television. Talking nonsense is the sole privilege mankind possesses over the other organisms. It's by talking nonsense that one gets to the truth! I talk nonsense, therefore I'm human.",
+"Unless there is a telos which transcends the limited goods of practices by constituting the good of a whole human life, the good of a human life conceived as a unity, it will both be the case that a certain subversive arbitrariness will invade the moral life and that we shall be unable to specify the context of certain virtues adequately.",
+"If the highest aim of a captain were to preserve his ship, he would keep it in port forever.",
+"The movies make emotions look so strong and real, whereas when things really do happen to you, it's like watching television – you don't feel anything.",
+"J.B. Bury once followed Pascal in suggesting that the cause of the foundation of the Roman Empire was the length of Cleopatra’s nose: had her features not been perfectly proportioned, Mark Antony would not have been entranced; had he not been entranced he would not have allied himself with Egypt against Octavian; had he not made that alliance, the battle of Actium would not have been fought—and so on.",
+"Contemporary moral argument is rationally interminable, because all moral, indeed all evaluative, argument is and always must be rationally interminable. Contemporary moral disagreements of a certain kind cannot be resolved, because no moral disagreements of that kind in any age, past, present or future, can be resolved."
+];
+	$(document).ready(function() {
+		SyncApp.boot({
+			'room_id': '012345',
+			'text': arr,
+			'user_initials': 'AL',
+			'round': 'lit'
+		});
+	});
+</script>
