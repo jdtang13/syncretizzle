@@ -36,24 +36,44 @@ class WelcomeController < ApplicationController
 
 	 	newline = "<br />"
 
-	 	@content = @content.gsub(/^ */, "")
-	 	@content = @content.gsub(/[,;:-]$/, ".")
+	 	min_line = 5
+	 	min_variance = 1
 
-	  	if (@content.include?(". "))
-		  	for string in @content.split(". ")
+	 	max_line = 10
+	 	max_variance = 3
 
-		  		tmp = string.gsub(" i ", " I ")
-		  		#string.gsub!(/[,;:-]$/, ".")
+	 	rng = Random.new
 
-		  		@processed << tmp.capitalize << "." << newline
-		  	end
-		  else 
-		  	@processed = @content.capitalize
+	 	# build lines slowly
+	 	current_line = ""
+	 	count = 0
+	 	i = 0
+	 	for word in @content.split(" ")
+
+	 		if (word == "i")
+	 			word = "I"
+	 		end
+
+	 		current_line << word + " "
+
+	 		if (word.match(/[?.,;:-]/) or count > max_line)
+
+		 		current_line << newline
+
+	 			current_line[0] = current_line[0].capitalize
+
+	 			@processed << current_line
+
+	 			current_line = ""
+	 			count = 0
+	 		end
+
+	 		count += 1
+	 		i += 1
+
 	 	end
 
-	 	@processed = @processed.gsub(",", ",<br />")
-
-	 	@processed[0] = @processed[0].capitalize
+	 	@processed.gsub!(/[,.;:-]? *<br \/> *$/, ".")
 
 	 	@result = Post.new(:content => @processed)
 
