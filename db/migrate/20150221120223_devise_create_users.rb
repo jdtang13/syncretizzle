@@ -18,12 +18,13 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.integer :room_id
       
-      #t.integer :uid
+      t.string :uid
+      t.string :provider
 
       t.string :name
       t.string :image
       t.string :password
-      
+
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
