@@ -170,13 +170,13 @@ helper_method :current_or_new_room
   end
 
   # JERRY'S MARKOV CODE !!!
-
+  
 	#checks if letter
 	def letter?(lookAhead)
 		lookAhead =~ /[A-Za-z]/
 	end
 	#select a word from a given array of words and their probability distribution
-	def select_word(prev, hash, bg_trans_table)
+	def select_word(prevprev, prev, hash, bg_trans_table)
 		#puts "SELECTING WORD"
 
 		#if using background trans table, create new trans table and set hash to it
@@ -184,9 +184,8 @@ helper_method :current_or_new_room
 		#use existing entry
 		hash2 = Hash.new
 		hash.each_key do |key|
-			if !bg_trans_table[prev].nil? && !bg_trans_table[prev][key].nil? then
-				hash2[key] = bg_trans_table[prev][key]
-				#hash2[key] = hash[key]
+			if !bg_trans_table[prevprev].nil? && !bg_trans_table[prevprev][prev].nil? && !bg_trans_table[prevprev][prev][key].nil? then
+				hash2[key] = bg_trans_table[prevprev][prev][key]
 			else 
 				hash2[key] = hash[key]
 			end
@@ -229,32 +228,41 @@ helper_method :current_or_new_room
 		result = ""
 		result_arr = Array.new
 		prev = ""
+		prevprev = ""
 			banned_words = ['of', 'and', 'or', 'for', 'the', 'a', 'to'];
 
 		for i in 1..length
 			if i == 1 then
-				word = select_word("", prior_prob, bg_trans_table)
+				word = select_word("","", prior_prob, bg_trans_table)
 			else
-				if !trans_table.key?(prev) then
-					word = word_collection.to_a.sample
+				if !trans_table.key?(prevprev) || !trans_table[prevprev].key?(prev) then
+					if trans_table[""].key?(prev) then 
+						word = select_word("", prev, trans_table[""][prev], bg_trans_table)
+					else
+						word = word_collection.to_a.sample
+					end
 				else
-					word = select_word(prev, trans_table[prev], bg_trans_table)
+					word = select_word(prevprev, prev, trans_table[prevprev][prev], bg_trans_table)
 				end
 			end
 
 			if word.nil? then
 				break
 			end
-			if word == 'i' then word = 'I' end
 			if prev.include?(".") then
 				word = word.capitalize
 			end
 			puts "----------"
 			puts i
 			puts "-----------"
+			puts prev
 			puts word
-			result = result + " " + word.to_s
+			if word == 'i' then result = result + " " + "I" 
+			else 
+				result = result + " " + word.to_s 
+			end
 			result_arr.push(word)
+			prevprev = prev
 			prev = word
 			next
 		end
@@ -270,24 +278,45 @@ helper_method :current_or_new_room
 	end
 
 	#simplified version of process_line, only calculates transition
-	def process_trans(data, trans_table)
+	def process(data, trans_table)
 		newentry = data.downcase.gsub(/[^a-z0-9\s'\.,;-]/i, '')
 		words = newentry.split(" ")
 
 		prev = ""
+		prevprev = ""
+
+		if !trans_table.has_key?("") then
+			trans_table[""] = Hash.new
+		end
 		words.each do |word|
+			#if first word, then store in prior probs and continue
 			if prev == "" then 
+				prevprev = prev
+				prev = word
 				next
 			end
+
 			# store trans probs
-			if !trans_table.has_key?(prev) then
-				trans_table[prev] = Hash.new
+			if !trans_table.has_key?(prevprev) then
+				trans_table[prevprev] = Hash.new
+				if !trans_table[""].has_key?(prevprev) then
+					trans_table[""][prevprev] = Hash.new
+				end
 			end
-			if !trans_table[prev].has_key?(word) then
-				trans_table[prev][word] = 1
+			if !trans_table[prevprev].has_key?(prev) then
+				trans_table[prevprev][prev] = Hash.new
+				if !trans_table[""].has_key?(prev) then
+					trans_table[""][prev] = Hash.new
+				end
+			end
+			if !trans_table[prevprev][prev].has_key?(word) then
+				trans_table[prevprev][prev][word] = 1
+				trans_table[""][prev][word] = 1
 			else
-				trans_table[prev][word] += 1
+				trans_table[prevprev][prev][word] += 1
+				trans_table[""][prev][word] += 1
 			end
+			prevprev = prev
 			prev = word
 		end
 	end
@@ -300,6 +329,12 @@ helper_method :current_or_new_room
 		word_collection.merge(words)
 
 		prev = ""
+		prevprev = ""
+
+		if !trans_table.has_key?("") then
+			trans_table[""] = Hash.new
+		end
+
 		words.each do |word|
 			#if first word, then store in prior probs and continue
 			if prev == "" then 
@@ -308,35 +343,49 @@ helper_method :current_or_new_room
 				else
 					prior_prob[word] += 1
 				end
+				prevprev = prev
 				prev = word
 				next
 			end
 
 			# store trans probs
-			if !trans_table.has_key?(prev) then
-				trans_table[prev] = Hash.new
+			if !trans_table.has_key?(prevprev) then
+				trans_table[prevprev] = Hash.new
+				if !trans_table[""].has_key?(prevprev) then
+					trans_table[""][prevprev] = Hash.new
+				end
 			end
-			if !trans_table[prev].has_key?(word) then
-				trans_table[prev][word] = 1
+			if !trans_table[prevprev].has_key?(prev) then
+				trans_table[prevprev][prev] = Hash.new
+				if !trans_table[""].has_key?(prev) then
+					trans_table[""][prev] = Hash.new
+				end
+			end
+			if !trans_table[prevprev][prev].has_key?(word) then
+				trans_table[prevprev][prev][word] = 1
+				trans_table[""][prev][word] = 1
 			else
-				trans_table[prev][word] += 1
+				trans_table[prevprev][prev][word] += 1
+				trans_table[""][prev][word] += 1
 			end
-
+			prevprev = prev
 			prev = word
 		end
 	end
 
 	def normalize_table(table)
 		table.each do |key, value| 
-			total = 0
 			value.each do |key2, value2|
-				if value2.kind_of? Integer
-					total += value2
+				total = 0
+				value2.each do |key3, value3|
+					if value3.kind_of? Integer
+						total += value3
+					end
 				end
-			end
 
-			value.each do |key2, value2|
-				value[key2] = value2 / total.to_f
+				value2.each do |key3, value3|
+					value2[key3] = value3 / total.to_f
+				end
 			end
 		end
 	end
@@ -356,8 +405,8 @@ helper_method :current_or_new_room
 	def get_trans_table
 		require 'set'
 		trans_table = Hash.new
-		data = File.read('db/poem_training.txt')
-		process_trans(data, trans_table)
+		data = File.read('poem_training.txt')
+		process(data, trans_table)
 		normalize_table(trans_table)
 		return trans_table
 	end
@@ -375,10 +424,10 @@ helper_method :current_or_new_room
 		trans_table = Hash.new
 		prior_prob = Hash.new
 		arr1.each do |entry|
-			process_line(entry.content, word_collection, trans_table, prior_prob)
+			process_line(entry, word_collection, trans_table, prior_prob)
 		end
 		arr2.each do |entry|
-			process_line(entry.content, word_collection, trans_table, prior_prob)
+			process_line(entry, word_collection, trans_table, prior_prob)
 		end
 
 		#normalize necessary structure
@@ -393,6 +442,5 @@ helper_method :current_or_new_room
 
 		return [result, title]
 	end
-
 
 end
