@@ -1,20 +1,106 @@
-<h2><%= @title %></h2>
+<div id="js-app-container">
+	<div id="waiting">
+		<h1>Syncretizzle</h1>
+		<p><i>when literary syncretism meets shizzle</i></p>
+		<p> Waiting for everyone to be ready ... </p>
+	</div>
+	<div id="text_boxes">
+		<% #POPULATED BY BACKBONE### %>
+		<ul class="list" id="list1">
+			<li class="box" id="box1">
+			</li>
+			<li class="box" id="box3">
+			</li>
+			<li class="box" id="box5">
+			</li>
+			<li class="box" id="box7">
+			</li>
+			<li class="box" id="box9">
+			</li>
+		</ul>
+		<ul class="list" id="list2">
+			<li class="box" id="box2">
+			</li>
+			<li class="box" id="box4">
+			</li>
+			<li class="box" id="box6">
+			</li>
+			<li class="box" id="box8">
+			</li>
+			<li class="box" id="box10">
+			</li>
+		</ul>
+	</div>
 
-<!--<p><%= @content %></p>-->
+	<div id="right_sidebar">
+		<h1>Syncretizzle</h1>
+		<p id="round"></p>
+		<p id="room">Room ID: 12345</p>
+		<ul>
+			<% #POPULATED BY BACKBONE### %>
+		</ul>
+		<div>
+			<p>Up Votes Left:   <span id="upvote_count">4</span></p>
+			<p>Down Votes Left:   <span id="downvote_count">2</span></p>
+			<a id="ready" href="#">Ready to Start Game</a>
+		</div>
+	</div>
+</div>
+<% #JS TEMPLATES ################ %>
 
-<p><%= simple_format(@processed) %></p>
+<% #Render one user %>
 
-<h2>Round 1: Facebook</h2>
+<script type="text/template" id="tpl-user-item">
+	<li>
+		<div class="circle">
+			<p><%%= user_initials %></p>
+		</div>
+		<p class="status"><%%= user_status %></p>
+	</li>
+</script>
 
-<% @first_round.each do |p| %>
-<%= p.content %> </br></br>
+<% #Render one text item %>
+<script type="text/template" id="tpl-text-item">
+	<p>
+		<%%= text_segment %>
+	</p>
+	<div class="imageDiv">	
+		<%= image_tag "down_arrow.png", :class => "downvote_btn" %>
+		<%= image_tag "up_arrow.png", :class=> "upvote_btn" %>
+	</div>
+</script>
+
+
+<% #BACKBONE INITIALIZATION ################ %>
+<%= javascript_tag do %>
+	window.fbarr = <%= raw @first_round.to_json %>;
 <% end %>
-
-
-<h2>Round 2: Humanities</h2>
-<% @second_round.each do |p| %>
-<%= p.content %> </br></br>
+<%= javascript_tag do %>
+	window.litarr = <%= raw @second_round.to_json %>;
 <% end %>
+<script>
 
+var fbarr = window.fbarr;
+var litarr = window.litarr;
+var arr = [
+"So... I know Treehacks is coming up, but I'm at the Intel Security Hackathon right now and less than half of the teams actually decided to show up. Intel wants more teams to come out - Three person teams, 24 hours. If you want a mountain of really nice free stuff and a very good shot at a large cash prize, message me. We're a short Uber from campus.",
+"When Satahi tempts me to despair \n And tells me of the guilt within \n Upward I look and see Him there \n Who made an end of all my sin",
+"My first time in Tahoe. \n I love my pledge class. \n Im so excited. \n That is all.",
+"'If a girl says we need to talk you might as well just start punching yourself in the balls dude' - Eric Cartman",
+"Stunning performance! Rotterdam Philharmonic was amazing! \n Ravel - Mother Goose Suite, Piano Concerto in G Major \n Prokofiev - Symphony No. 5 in B-flat Major \n Then Shostakovich - Folk Feast after standing ovation.",
+"I have to admit that I was pretty worried when they announced that my ‪#‎MalaysiaAirlines‬ plane had some technical issues before I boarded (...and I may have told someone to record my last words to share on my FB in the event that something happened) but it's all good because I made it to KL!",
+"Macarons from my cousin in France. They're colorful and as delicious as I expected!", "When you can get falsely placed in prison for the mere color of your skin. And when you can be forced to work like people did 400 years ago. Please remember when you sarcastically added that All Lives Matter.",
+"Happy birthday homie heart emoticon \n Enjoy this picture with no context\n Bcus I don't remember the context", "One of my favorite bands, the Punch Brothers, is performing in San Francisco at 9pm on Saturday, April 4th, the first week of spring quarter! I'm planning on going, and if you're going you should let me know!"];
 
-<p></p>
+	$(document).ready(function() {
+		SyncApp.boot({
+			'fb_arr': fbarr,
+			'lit_arr': litarr,
+			'room_id': '012345',
+			'text': arr, //Populated by Backend
+			'user_initials': 'AL',
+			'round': 'fb'
+		});
+	});
+</script>
+

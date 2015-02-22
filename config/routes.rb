@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   root :to => 'welcome#index'
 
+  get 'submit', to: 'welcome#handle_form'
+
   get 'auth/facebook', as: "auth_provider"
   get 'auth/facebook/callback', to: 'users#login'
 

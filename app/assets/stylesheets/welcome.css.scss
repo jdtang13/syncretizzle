@@ -1,3 +1,128 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 50px;
+	background-color: rgb(242, 242, 242);
+}
+
+#text_boxes {
+	height: 100%;
+	ul {
+		list-style-type: none;
+	}
+}
+
+#js-app-container {
+	height: 100%;
+}
+
+#list2 {
+	padding-top: 20px;
+	position: absolute;
+	top: 0;
+	left: 30%;
+	width: 100%;
+}
+
+.btn--disabled .imageDiv{
+	display: none;
+}
+
+.box {
+	// display: inline-block;
+	// position: absolute;
+	// top: 0;
+	background: #FFFFFF;
+	&.up_selected {
+		background: #B4FF5D;
+	}
+	&.down_selected {
+		background: #FFA2A2;
+	}
+	width: 25%;
+	p {
+		padding: 30px;
+		font-family: Helvetica;
+		font-size: 15px;
+		color: #000000;
+		line-height: 18px;
+	}
+	img {
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+	}
+	.imageDiv {
+		padding: 5px 0px 10px 30px;
+	}
+}
+
+.circle {
+    background: #f00;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+	background: #9013FE;
+	border: 1px solid #979797;
+	display: inline-block;
+	p {
+		margin-top: 13px;
+		font-family: Helvetica;
+		font-size: 20px;
+		color: #FFFFFF;
+		line-height: 24px;
+	}
+}
+
+#right_sidebar {
+	width: 33%;
+	margin: 50px 50px 0px 0px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	#round {
+		/* Facebook Round: */
+		font-family: Helvetica-Bold;
+		font-size: 25px;
+		color: #4A90E2;
+		line-height: 30px;
+		margin: 0px 0px 25px 0px;
+	}
+	#room {
+		/* Room ID: 12345: */
+		font-family: Lato-Regular;
+		font-size: 25px;
+		color: #000000;
+		line-height: 30px;	
+		margin: 0px 0px 25px 0px;
+	}
+	ul {
+		list-style-type: none;
+		li {
+			padding: 15px;
+			.status {
+				padding: 0px 0px 0px 20px;
+				display: inline-block;
+			}
+		}
+	}
+	h1 {
+		/* Syncretizzle: */
+		font-family: Lato-Bold;
+		font-size: 50px;
+		color: #9013FE;
+		line-height: 60px;
+		text-align: center;
+		margin: 0px 0px 25px 0px;
+	}
+	p {
+		text-align: center;
+	}
+}

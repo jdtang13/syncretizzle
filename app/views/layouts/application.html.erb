@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Syncretizzle</title>
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,12 +11,6 @@
 
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-
-<h1>Syncretizzle</h1>
-<p><i>when literary syncretism meets shizzle</i></p>
-
-<p>Logged in as: guest user (<%= current_or_guest_user.id %>) </p>
-<p><%= link_to "Facebook Login", user_omniauth_authorize_path(:facebook) %></p>
 
 <%= yield %>
 
