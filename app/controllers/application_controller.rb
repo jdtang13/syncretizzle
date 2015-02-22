@@ -228,6 +228,9 @@ helper_method :current_or_new_room
 			if word.nil? then
 				break
 			end
+			if prev.include?(".") then
+				word = word.capitalize
+			end
 			puts "----------"
 			puts i
 			puts "-----------"
@@ -242,7 +245,7 @@ helper_method :current_or_new_room
 
 	#simplified version of process_line, only calculates transition
 	def process(data, trans_table)
-		newentry = data.downcase.gsub(/[^a-z0-9\s\.,;-]/i, '')
+		newentry = data.downcase.gsub(/[^a-z0-9\s'\.,;-]/i, '')
 		words = newentry.split(" ")
 
 		prev = ""
@@ -265,7 +268,7 @@ helper_method :current_or_new_room
 
 	def process_line(entry, word_collection, trans_table, prior_prob)
 
-		newentry = entry.downcase.gsub(/[^a-z0-9\s\.,;-]/i, '')
+		newentry = entry.downcase.gsub(/[^a-z0-9\s'\.,;-]/i, '')
 		words = newentry.split(" ")
 		#store all words into word_collection
 		word_collection.merge(words)
