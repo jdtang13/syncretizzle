@@ -35,7 +35,7 @@ end
         # feed in public statuses from groups, celebrities, and the few people who make public statuses
         # volunteer your own statuses
 
-        if current_user != nil
+        if current_user != nil and current_user.fb_token != nil
 			@graph = Koala::Facebook::API.new(current_user.fb_token)
 
 			# if (current_user.fb_token == nil)

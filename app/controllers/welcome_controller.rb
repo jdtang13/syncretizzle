@@ -20,11 +20,10 @@ class WelcomeController < ApplicationController
   		# game has finished, now firebase sends the data to controller
 	  	# TODO: get this selection set from firebase!!
 
-	  	first = params[:first] # get parameter data from Javascript/AJAX post request
-	  	second = params[:second]
+	  	
 
-	  	#first = @first_round.sample(5)
-	  	#second = @second_round.sample(5)
+	  	first = @first_round.sample(5)
+	  	second = @second_round.sample(5)
 
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
@@ -72,9 +71,7 @@ class WelcomeController < ApplicationController
 	 	end
 
 	 	@processed.gsub!(/[,.;:-]? *<br \/> *$/, ".")
-
-	 	@result = Post.new(:content => @processed)
-
+  		
 	 	Post.where(source: 1).destroy_all # erase all facebook posts at the end of every cycle
 
   	end

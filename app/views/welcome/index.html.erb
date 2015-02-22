@@ -44,6 +44,8 @@
 			<% #POPULATED BY BACKBONE### %>
 		</ul>
 		<div>
+			<p>Logged in as: guest user (<%= current_or_guest_user.id %>) </p>
+<p><%= link_to "Facebook Login", user_omniauth_authorize_path(:facebook) %></p>
 			<p>Up Votes Left:   <span id="upvote_count">4</span></p>
 			<p>Down Votes Left:   <span id="downvote_count">2</span></p>
 			<a id="ready" href="#">Ready to Start Game</a>
