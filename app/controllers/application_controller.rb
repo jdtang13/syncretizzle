@@ -38,16 +38,16 @@ end
         if current_user != nil
 			@graph = Koala::Facebook::API.new(current_user.fb_token)
 
-			if (current_user.fb_token == nil)
-				puts "***********IT IS NIL"
-			else 
-				puts "***********IT IS NOT NIL" << current_user.fb_token
+			# if (current_user.fb_token == nil)
+			# 	puts "***********IT IS NIL"
+			# else 
+			# 	puts "***********IT IS NOT NIL" << current_user.fb_token
 
-				if (@graph != nil)
-					puts "********AND IT WORKS"
-				end
+			# 	if (@graph != nil)
+			# 		puts "********AND IT WORKS"
+			# 	end
 
-			end
+			# end
 
 			#note: fb_token is nil!!!
 

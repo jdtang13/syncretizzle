@@ -19,8 +19,12 @@ class WelcomeController < ApplicationController
 
   		# game has finished, now firebase sends the data to controller
 	  	# TODO: get this selection set from firebase!!
-	  	first = @first_round.sample(5)
-	  	second = @second_round.sample(5)
+
+	  	first = params[:first] # get parameter data from Javascript/AJAX post request
+	  	second = params[:second]
+
+	  	#first = @first_round.sample(5)
+	  	#second = @second_round.sample(5)
 
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
