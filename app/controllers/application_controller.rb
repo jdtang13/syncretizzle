@@ -239,6 +239,7 @@ helper_method :current_or_new_room
 			if word.nil? then
 				break
 			end
+			if word == 'i' then word = 'I' end
 			if prev.include?(".") then
 				word = word.capitalize
 			end
