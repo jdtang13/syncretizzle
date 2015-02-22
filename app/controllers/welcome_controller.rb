@@ -71,6 +71,8 @@ class WelcomeController < ApplicationController
 
 	 	@result = Post.new(:content => @processed)
 
+	 	Post.where(source: 1).destroy_all # erase all facebook posts at the end of every cycle
+
   	end
 
   	# Note: you need to mash F5 for this strategy to work; does not update on-screen, must manually refresh.

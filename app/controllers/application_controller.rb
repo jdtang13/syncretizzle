@@ -52,20 +52,31 @@ end
 			#note: fb_token is nil!!!
 
 			statuses = @graph.get_connections('me', 'statuses')
+			statuses.shuffle!
 
+			i = 0
 			for status in statuses
+
+				if (i > 10) 
+					break
+				end
+
 				p = Post.create(:content => status['message'], :source => 1)
 				posts << p
 				#p.save!
+
+				i += 1
 			end
 
 			#profile = @graph.get_object("me")
 		else
           posts = Post.where(source: 1)
-          
+          posts = posts.sample(10)
+
       	end
 
-      posts = posts.sample(10)
+
+      
        # todo: twitter support? maybe voters choose between facebook and twitter?
 
       when :classics
