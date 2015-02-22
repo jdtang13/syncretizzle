@@ -295,16 +295,28 @@ $(function(){
 			if(snapshot.val() === 'final') {
 				console.log("FIRING AJAX");
 				lit_votes = base_votes;
-				var obj = {};
+				window.obj = {};
 				obj.fb_data = fb_data;
 				obj.lit_data = lit_data;
 				obj.fb_votes = fb_votes;
 				obj.lit_votes = lit_votes;
-				$.ajax({
-					type: "POST",
-					url: "/submit",
-					dataType: "json",
-					data: JSON.stringify(obj)
+				// $.ajax({
+				// 	type: "POST",
+				// 	url: "/submit",
+				// 	dataType: "json",
+				// 	data: {
+				// 		'data2': JSON.stringify(obj)
+				// 	},
+				// 	processData: false,
+				// 	success: function( data, textStatus, jQxhr ){
+				// 		console.log(JSON.stringify(data));
+				// 	},
+				// 	error: function( jqXhr, textStatus, errorThrown ){
+				// 		console.log( errorThrown );
+				// 	}
+				// });
+				$.post("/submit", {data2: JSON.stringify(window.obj)}, function(returnedData) {
+					console.log(returnedData);
 				});
 			}
 			round = snapshot.val();

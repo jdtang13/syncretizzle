@@ -74,14 +74,18 @@ class WelcomeController < ApplicationController
   	end
 
   	def handle_form
-  		data = params[:data]
+  		data = params[:data2]
   		result = JSON.parse(data)
 
   		##passes me results
+      arr1 = result["fb_data"]
+      arr2 = result["lit_data"]
 
-  		response = generate(arr1, arr2)
+      puts arr1
+      puts arr2
+
+  		response = generate2(arr1, arr2)
   		render :json => {text: response}
-
   	end
 
   	# Note: you need to mash F5 for this strategy to work; does not update on-screen, must manually refresh.
