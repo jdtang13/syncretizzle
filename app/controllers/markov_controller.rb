@@ -45,30 +45,30 @@ class MarkovController < ApplicationController
 					# puts "**********2"
 
 					#probabilities for punctuation
-					prob = rand()
-					if !letter?(prev) then
+					# prob = rand()
+					# if !letter?(prev) then
 
-					elsif prob < 0.14 then
-						word = "."
-					elsif prob < 0.37 then
-						word = ","
-					elsif prob < 0.52 then
-						word = ";"
-					end
+					# elsif prob < 0.01 then
+					# 	word = "."
+					# elsif prob < 0.025 then
+					# 	word = ","
+					# elsif prob < 0.03 then
+					# 	word = ";"
+					# end
 				else
 					word = select_word(trans_table[prev])
 
-					#probabilities
-					prob = rand()
-					if !letter?(prev) then
+					#probabilities for punctuation
+					# prob = rand()
+					# if !letter?(prev) then
 
-					elsif prob < 0.005 then
-						word = "."
-					elsif prob < 0.03 then
-						word = ","
-					elsif prob < 0.04 then
-						word = "-"
-					end
+					# elsif prob < 0.005 then
+					# 	word = "."
+					# elsif prob < 0.015 then
+					# 	word = ","
+					# elsif prob < 0.020 then
+					# 	word = "-"
+					# end
 				end
 			end
 
@@ -89,7 +89,7 @@ class MarkovController < ApplicationController
 
 
 	def process_line(entry, word_collection, trans_table, prior_prob)
-		newentry = entry.downcase.gsub(/[^a-z0-9\s]/i, '')
+		newentry = entry.downcase.gsub(/[^a-z0-9\s\.,;-]/i, '')
 		words = newentry.split(" ")
 		#store all words into word_collection
 		word_collection.merge(words)
@@ -152,8 +152,8 @@ class MarkovController < ApplicationController
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 15
-		length = rand(5) + blength
+		blength = 7
+		length = rand(3) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
 		word_collection = Set.new
@@ -173,5 +173,6 @@ class MarkovController < ApplicationController
 		#generate line
 		return line_generate(length, word_collection, trans_table, prior_prob)
 	end
+
 
 end
