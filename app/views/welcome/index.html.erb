@@ -1,2 +1,25 @@
-<h1>Welcome to Syncretizzle</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<h1>Syncretizzle</h1>
+<p><i>when literary syncretism meets shizzle</i></p>
+
+<p>Logged in as: guest user (<%= current_or_guest_user.id %>) </p>
+
+<h2>Result</h2>
+
+<!--<p><%= @content %></p>-->
+
+<p><%= simple_format(@processed) %></p>
+
+<h2>Round 1: Facebook</h2>
+
+<% @first_round.each do |p| %>
+<%= p.content %> </br></br>
+<% end %>
+
+
+<h2>Round 2: Classic Literature</h2>
+<% @second_round.each do |p| %>
+<%= p.content %> </br></br>
+<% end %>
+
+
+<p></p>

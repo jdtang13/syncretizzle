@@ -1,0 +1,4 @@
+class MarkovController < ApplicationController
+	
+
+end
