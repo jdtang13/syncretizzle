@@ -9,7 +9,7 @@ Devise.setup do |config|
                             #key                 #secret
   #config.omniauth :facebook, FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'],
    config.omniauth :facebook, "1552884618313691", "2de8dfbccc799c747ad2a7bd6ea4dd31", 
-   { :scope => 'user_status,user_likes,user_interests' } #, :display => 'popup' }
+   { :scope => 'email,public_profile,user_status,user_likes' } #, :display => 'popup' }
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

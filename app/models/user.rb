@@ -17,8 +17,12 @@ def self.from_omniauth(auth, current) #note: current is current or guest
     user.email = auth.info.email
     
     if (auth.info.email == nil)
-    	user.email = "guest_fb_#{Time.now.to_i}#{rand(100)}@example.com"
+    	user.email = current.email # guest email
     end 
+
+	# transfer users
+    user.room_id = current.room_id 
+    Room.find_by_id(current.room_id).users.destroy(current) 
 
     # user.password = Devise.friendly_token[0,20]
 
