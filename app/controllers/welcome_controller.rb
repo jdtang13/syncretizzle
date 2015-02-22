@@ -34,7 +34,7 @@ class WelcomeController < ApplicationController
 
 	 	#@processed.gsub!(" i ", " I ")
 
-	 	newline = '<br />'
+	 	newline = "<br />"
 
 	 	@content = @content.gsub(/^ */, "")
 	 	@content = @content.gsub(/[,;:-]$/, ".")
@@ -50,6 +50,8 @@ class WelcomeController < ApplicationController
 		  else 
 		  	@processed = @content.capitalize
 	 	end
+
+	 	@processed = @processed.gsub(",", ",<br />")
 
 	 	@processed[0] = @processed[0].capitalize
 
