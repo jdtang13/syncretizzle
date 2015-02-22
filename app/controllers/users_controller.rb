@@ -30,6 +30,9 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+  end
+
   # GET/PATCH /users/:id/finish_signup
   def finish_signup
     # authorize! :update, @user 

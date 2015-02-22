@@ -4,8 +4,6 @@
 
 <p><%= simple_format(@processed) %></p>
 
-<p><%= link_to "Facebook Login", '/auth/facebook' %></p>
-
 <h2>Round 1: Facebook</h2>
 
 <% @first_round.each do |p| %>
@@ -13,7 +11,7 @@
 <% end %>
 
 
-<h2>Round 2: Classic Literature</h2>
+<h2>Round 2: Humanities</h2>
 <% @second_round.each do |p| %>
 <%= p.content %> </br></br>
 <% end %>

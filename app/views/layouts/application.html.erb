@@ -15,6 +15,7 @@
 <p><i>when literary syncretism meets shizzle</i></p>
 
 <p>Logged in as: guest user (<%= current_or_guest_user.id %>) </p>
+<p><%= link_to "Facebook Login", user_omniauth_authorize_path(:facebook) %></p>
 
 <%= yield %>
 

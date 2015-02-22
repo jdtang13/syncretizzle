@@ -5,12 +5,13 @@ Rails.application.routes.draw do
 
   root :to => 'welcome#index'
 
+  get 'auth/facebook', as: "auth_provider"
+  get 'auth/facebook/callback', to: 'users#login'
+
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
 
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
-  get 'auth/facebook', as: "auth_provider"
-  get 'auth/facebook/callback', to: 'users#login'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
