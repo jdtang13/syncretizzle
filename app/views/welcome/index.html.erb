@@ -1,4 +1,9 @@
 <div id="js-app-container">
+	<div id="waiting">
+		<h1>Syncretizzle</h1>
+		<p><i>when literary syncretism meets shizzle</i></p>
+		<p> Waiting for everyone to be ready ... </p>
+	</div>
 	<div id="text_boxes">
 		<% #POPULATED BY BACKBONE### %>
 		<ul class="list" id="list1">
@@ -67,7 +72,16 @@
 
 
 <% #BACKBONE INITIALIZATION ################ %>
+<%= javascript_tag do %>
+	window.fbarr = <%= raw @first_round.to_json %>;
+<% end %>
+<%= javascript_tag do %>
+	window.litarr = <%= raw @second_round.to_json %>;
+<% end %>
 <script>
+
+var fbarr = window.fbarr;
+var litarr = window.litarr;
 var arr = [
 "So... I know Treehacks is coming up, but I'm at the Intel Security Hackathon right now and less than half of the teams actually decided to show up. Intel wants more teams to come out - Three person teams, 24 hours. If you want a mountain of really nice free stuff and a very good shot at a large cash prize, message me. We're a short Uber from campus.",
 "When Satahi tempts me to despair \n And tells me of the guilt within \n Upward I look and see Him there \n Who made an end of all my sin",
@@ -77,8 +91,11 @@ var arr = [
 "I have to admit that I was pretty worried when they announced that my ‪#‎MalaysiaAirlines‬ plane had some technical issues before I boarded (...and I may have told someone to record my last words to share on my FB in the event that something happened) but it's all good because I made it to KL!",
 "Macarons from my cousin in France. They're colorful and as delicious as I expected!", "When you can get falsely placed in prison for the mere color of your skin. And when you can be forced to work like people did 400 years ago. Please remember when you sarcastically added that All Lives Matter.",
 "Happy birthday homie heart emoticon \n Enjoy this picture with no context\n Bcus I don't remember the context", "One of my favorite bands, the Punch Brothers, is performing in San Francisco at 9pm on Saturday, April 4th, the first week of spring quarter! I'm planning on going, and if you're going you should let me know!"];
+
 	$(document).ready(function() {
 		SyncApp.boot({
+			'fb_arr': fbarr,
+			'lit_arr': litarr,
 			'room_id': '012345',
 			'text': arr, //Populated by Backend
 			'user_initials': 'AL',
@@ -87,23 +104,3 @@ var arr = [
 	});
 </script>
 
-<h2><%= @title %></h2>
-
-<!--<p><%= @content %></p>-->
-
-<p><%= simple_format(@processed) %></p>
-
-<h2>Round 1: Facebook</h2>
-
-<% @first_round.each do |p| %>
-<%= p.content %> </br></br>
-<% end %>
-
-
-<h2>Round 2: Humanities</h2>
-<% @second_round.each do |p| %>
-<%= p.content %> </br></br>
-<% end %>
-
-
-<p></p>
