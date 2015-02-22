@@ -80,6 +80,11 @@ class WelcomeController < ApplicationController
   		result = JSON.parse(data)
 
   		##passes me results
+  		arr1 = result["fb_data"]
+  		arr2 = result["lit_data"]
+
+  		puts arr1
+  		puts arr2
 
   		response = generate(arr1, arr2)
   		render :json => {text: response}
