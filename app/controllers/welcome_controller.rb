@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  	
+
   	def index
 
   		#refresh()
@@ -28,8 +28,54 @@ class WelcomeController < ApplicationController
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
 
-		content = generate(first, second)
-	  	@result = Post.new(:content => content)
+		@content = generate(first, second)
+
+	  	@processed = ""
+
+	 	#@processed.gsub!(" i ", " I ")
+
+	 	newline = "<br />"
+
+	 	min_line = 5
+	 	min_variance = 1
+
+	 	max_line = 10
+	 	max_variance = 3
+
+	 	rng = Random.new
+
+	 	# build lines slowly
+	 	current_line = ""
+	 	count = 0
+	 	i = 0
+	 	for word in @content.split(" ")
+
+	 		if (word == "i")
+	 			word = "I"
+	 		end
+
+	 		current_line << word + " "
+
+	 		if (word.match(/[?.,;:-]/) or count > max_line)
+
+		 		current_line << newline
+
+	 			current_line[0] = current_line[0].capitalize
+
+	 			@processed << current_line
+
+	 			current_line = ""
+	 			count = 0
+	 		end
+
+	 		count += 1
+	 		i += 1
+
+	 	end
+
+	 	@processed.gsub!(/[,.;:-]? *<br \/> *$/, ".")
+
+	 	@result = Post.new(:content => @processed)
 
   	end
 

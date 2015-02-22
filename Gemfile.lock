@@ -27,7 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.7)
     arel (5.0.1.20140414130214)
+    awesome_print (1.6.1)
     bcrypt (3.1.10)
     bcrypt (3.1.10-x86-mingw32)
     bcrypt-ruby (3.1.5)
@@ -51,6 +53,9 @@ GEM
     execjs (2.3.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    gingerice (1.2.2)
+      addressable
+      awesome_print
     hashie (3.4.0)
     hike (1.2.3)
     httparty (0.13.3)
@@ -160,6 +165,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.10)
   coffee-rails (~> 4.0.0)
   devise
+  gingerice
   httparty
   jbuilder (~> 2.0)
   jquery-rails
