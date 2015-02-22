@@ -1,6 +1,12 @@
 <h1>Syncretizzle</h1>
 <p><i>when literary syncretism meets shizzle</i></p>
 
+<h2>Result</h2>
+
+<% if @result != nil %>
+<p><%= @result.content.humanize %></p>
+<% end %>
+
 <h2>Round 1: Facebook</h2>
 
 <% @first_round.each do |p| %>
@@ -13,11 +19,5 @@
 <%= p.content %> </br></br>
 <% end %>
 
-
-<h2>Result</h2>
-
-<% if @result != nil %>
-<p><%= @result.content %></p>
-<% end %>
 
 <p></p>

@@ -28,7 +28,7 @@ class WelcomeController < ApplicationController
  		# controller processes and saves the results, sends it to MarkovController
   		# markov is generated in final screen for all to view, saved to database
 
-		content = "HELLO!" #MarkovController.generate(first, second)
+		content = generate(first, second)
 	  	@result = Post.new(:content => content)
 
   	end
