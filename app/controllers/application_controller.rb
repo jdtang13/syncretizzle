@@ -224,7 +224,10 @@ helper_method :current_or_new_room
 	#generate a line based on Markov assumption using prior and posterior probabilities
 	def line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
 		result = ""
+		result_arr = Array.new
 		prev = ""
+			banned_words = ['of', 'and', 'or', 'for', 'the', 'a', 'to'];
+
 		for i in 1..length
 			if i == 1 then
 				word = select_word("", prior_prob, bg_trans_table)
@@ -239,6 +242,7 @@ helper_method :current_or_new_room
 			if word.nil? then
 				break
 			end
+			if word == 'i' then word = 'I' end
 			if prev.include?(".") then
 				word = word.capitalize
 			end
@@ -247,8 +251,16 @@ helper_method :current_or_new_room
 			puts "-----------"
 			puts word
 			result = result + " " + word.to_s
+			result_arr.push(word)
 			prev = word
 			next
+		end
+
+		if banned_words.include?(prev.downcase) then
+			result.slice!(prev)
+			if result_arr.length == 1 then
+				return line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
+			end
 		end
 
 		return result
@@ -371,8 +383,12 @@ helper_method :current_or_new_room
 		normalize_arr(prior_prob)
 
 		#generate line
+		titlelength = rand(5)+1
+		title = line_generate(titlelength, word_collection, trans_table, prior_prob, bg_trans_table)
+		title = title.gsub(/[^a-z0-9\s]/i, '').split.map(&:capitalize)*' '
 		result = line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
-		return result
+
+		return [result, title]
 	end
 
 
