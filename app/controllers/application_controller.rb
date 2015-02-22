@@ -209,10 +209,10 @@ helper_method :current_or_new_room
 		# end
 
 		hash2.each do |key, value|
-			puts "KEY: "
-			puts key
-			puts "VALUE: "
-			puts value
+			# puts "KEY: "
+			# puts key
+			# puts "VALUE: "
+			# puts value
 			cumu += value
 			cumu_hash[key] = cumu
 		end
@@ -252,10 +252,10 @@ helper_method :current_or_new_room
 			if prev.include?(".") then
 				word = word.capitalize
 			end
-			puts "----------"
-			puts i
-			puts "-----------"
-			puts word
+			#puts "----------"
+			#puts i
+			#puts "-----------"
+			#puts word
 			result = result + " " + word.to_s
 			result_arr.push(word)
 			prev = word
