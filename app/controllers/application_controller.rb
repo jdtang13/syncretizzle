@@ -35,13 +35,48 @@ end
         # feed in public statuses from groups, celebrities, and the few people who make public statuses
         # volunteer your own statuses
 
-		#@graph = Koala::Facebook::API.new(oauth_access_token)
-		#profile = @graph.get_object("me")
+        if current_user != nil
+			@graph = Koala::Facebook::API.new(current_user.fb_token)
 
-        # TODO: get this data from facebook!
+			if (current_user.fb_token == nil)
+				puts "***********IT IS NIL"
+			else 
+				puts "***********IT IS NOT NIL" << current_user.fb_token
+
+				if (@graph != nil)
+					puts "********AND IT WORKS"
+				end
+
+			end
+
+			#note: fb_token is nil!!!
+
+			statuses = @graph.get_connections('me', 'statuses')
+			statuses.shuffle!
+
+			i = 0
+			for status in statuses
+
+				if (i > 10) 
+					break
+				end
+
+				p = Post.create(:content => status['message'], :source => 1)
+				posts << p
+				#p.save!
+
+				i += 1
+			end
+
+			#profile = @graph.get_object("me")
+		else
           posts = Post.where(source: 1)
           posts = posts.sample(10)
 
+      	end
+
+
+      
        # todo: twitter support? maybe voters choose between facebook and twitter?
 
       when :classics
@@ -209,10 +244,10 @@ helper_method :current_or_new_room
 		# end
 
 		hash2.each do |key, value|
-			puts "KEY: "
-			puts key
-			puts "VALUE: "
-			puts value
+			# puts "KEY: "
+			# puts key
+			# puts "VALUE: "
+			# puts value
 			cumu += value
 			cumu_hash[key] = cumu
 		end
@@ -252,10 +287,10 @@ helper_method :current_or_new_room
 			if prev.include?(".") then
 				word = word.capitalize
 			end
-			puts "----------"
-			puts i
-			puts "-----------"
-			puts word
+			#puts "----------"
+			#puts i
+			#puts "-----------"
+			#puts word
 			result = result + " " + word.to_s
 			result_arr.push(word)
 			prev = word

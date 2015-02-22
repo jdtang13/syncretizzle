@@ -10,10 +10,17 @@ Rails.application.routes.draw do
   get 'auth/facebook', as: "auth_provider"
   get 'auth/facebook/callback', to: 'users#login'
 
+  #match 'auth/:provider/callback', to: 'sessions#create'
+  #match 'auth/failure', to: redirect('/')
+  #match 'signout', to: 'sessions#destroy', as: 'signout'
+
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
 
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  #devise_scope :user do
+  #  get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+  #end
 
+  # match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

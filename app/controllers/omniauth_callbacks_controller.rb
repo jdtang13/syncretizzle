@@ -18,22 +18,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   #   provides_callback_for :facebook
 
-  def facebook
-
+ def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.from_omniauth(request.env["omniauth.auth"], current_or_guest_user)
 
-    # TODO: work with guest method...
-
-    if @user.persisted?
+    if @user != nil # @user.persisted? # note: this prevents fresh, new entries from being registered too
       sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
     else
-      session["devise.facebook_data"] = request.env["omniauth.auth"]
-      redirect_to welcome_path
+      session["devise.facebook_data"] = request.env["omniauth.auth"].select { |k, v| k == "email" }
+      set_flash_message(:notice, :failure, :kind => "Facebook", :reason => "No persistence")
+      redirect_to new_user_registration_url
     end
-
   end
+
 
   def after_sign_in_path_for(resource)
     if resource.email_verified?
