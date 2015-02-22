@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
  
   belongs_to :room
 
+  def self.koala(auth)
+    access_token = auth['token']
+    facebook = Koala::Facebook::API.new(access_token)
+    facebook.get_object("me?fields=name,picture,status")
+  end
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist

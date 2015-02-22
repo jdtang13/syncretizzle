@@ -11,6 +11,10 @@ class UsersController < ApplicationController
     # authorize! :update, @user
   end
 
+  def login
+    @user = User.koala(request.env['omniauth.auth']['credentials'])
+  end
+
   # PATCH/PUT /users/:id.:format
   def update
     # authorize! :update, @user

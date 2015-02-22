@@ -35,6 +35,9 @@ end
         # feed in public statuses from groups, celebrities, and the few people who make public statuses
         # volunteer your own statuses
 
+		#@graph = Koala::Facebook::API.new(oauth_access_token)
+		#profile = @graph.get_object("me")
+
         # TODO: get this data from facebook!
           posts = Post.where(source: 1)
           posts = posts.sample(10)
