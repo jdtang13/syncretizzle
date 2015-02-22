@@ -116,11 +116,13 @@ $(function(){
 			var index = parseInt(idName.slice(-1));
 			var that = this;
 			var userRef = new Firebase(this.curr_url + this.user.id);
-			userRef.transaction(function(data) {
-				vote_value = data.user_votes[index-1];
-				if(vote_value === parseInt(vote_value, 10)) {
-					data.user_votes[index - 1] = vote_value + 1;
+			var votesRef = new Firebase(this.curr_url + this.user.id + "/user_votes/" + (index - 1));
+			votesRef.transaction(function(data) {
+				if(data === parseInt(data, 10)) {
+					return data + 1;
 				}
+			});
+			userRef.transaction(function(data) {
 				if(down_count === 0 && up_count === 0) {
 					data.user_status = "Ready! ";
 				}
