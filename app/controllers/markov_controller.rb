@@ -1,4 +1,8 @@
 class MarkovController < ApplicationController
+	#checks if letter
+	def letter?(lookAhead)
+		lookAhead =~ /[A-Za-z]/
+	end
 	#select a word from a given array of words and their probability distribution
 	def select_word(hash)
 		puts "SELECTING WORD"
@@ -19,6 +23,7 @@ class MarkovController < ApplicationController
 				return key
 			end 
 		end
+		return ""
 	end
 
 	#generate a line based on Markov assumption using prior and posterior probabilities
@@ -31,9 +36,44 @@ class MarkovController < ApplicationController
 			else
 				if !trans_table.key?(prev) then
 					word = word_collection.to_a.sample
+
+					# #puts "**********0"
+					# puts words.join(",")
+					# word = words[2]
+					# puts "**********1"
+					# puts word
+					# puts "**********2"
+
+					#probabilities for punctuation
+					# prob = rand()
+					# if !letter?(prev) then
+
+					# elsif prob < 0.01 then
+					# 	word = "."
+					# elsif prob < 0.025 then
+					# 	word = ","
+					# elsif prob < 0.03 then
+					# 	word = ";"
+					# end
 				else
 					word = select_word(trans_table[prev])
+
+					#probabilities for punctuation
+					# prob = rand()
+					# if !letter?(prev) then
+
+					# elsif prob < 0.005 then
+					# 	word = "."
+					# elsif prob < 0.015 then
+					# 	word = ","
+					# elsif prob < 0.020 then
+					# 	word = "-"
+					# end
 				end
+			end
+
+			if word.nil? then
+				break
 			end
 			puts "----------"
 			puts i
@@ -47,10 +87,12 @@ class MarkovController < ApplicationController
 		return result
 	end
 
+
 	def process_line(entry, word_collection, trans_table, prior_prob)
-		words = entry.split(" ")
+		newentry = entry.downcase.gsub(/[^a-z0-9\s\.,;-]/i, '')
+		words = newentry.split(" ")
 		#store all words into word_collection
-		word_collection.add(words)
+		word_collection.merge(words)
 
 		prev = ""
 		words.each do |word|
@@ -107,11 +149,10 @@ class MarkovController < ApplicationController
 	end
 
 
-	# always use this function
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 10
+		blength = 7
 		length = rand(3) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
@@ -132,5 +173,6 @@ class MarkovController < ApplicationController
 		#generate line
 		return line_generate(length, word_collection, trans_table, prior_prob)
 	end
+
 
 end
