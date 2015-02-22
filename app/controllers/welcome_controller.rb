@@ -29,32 +29,31 @@ class WelcomeController < ApplicationController
   		# markov is generated in final screen for all to view, saved to database
 
 		@content = generate(first, second)
-	  	@result = Post.new(:content => @content)
 
-	  	@processed = @content[1..@content.length]
+	  	@processed = ""
 
 	 	#@processed.gsub!(" i ", " I ")
-	 	@processed.gsub!(/^ */, "")
 
-	 	#@processed.gsub!(/[,;:-]$/, ".")
+	 	newline = '<br />'
+
+	 	@content = @content.gsub(/^ */, "")
+	 	@content = @content.gsub(/[,;:-]$/, ".")
 
 	  	if (@content.include?(". "))
-		  	for string in @processed.split(". ")
+		  	for string in @content.split(". ")
 
-		  		string.gsub!(" i ", " I ")
-		  		string.gsub!(/[,;:-]$/, ".")
+		  		tmp = string.gsub(" i ", " I ")
+		  		#string.gsub!(/[,;:-]$/, ".")
 
-		  		@processed << string.capitalize << ". "
+		  		@processed << tmp.capitalize << "." << newline
 		  	end
 		  else 
-		  	@processed = @processed.capitalize
-	 	end
-
-	 	if(@processed[@processed.length - 1] != '.' and @processed.length > 1 and @processed[@processed.length - 2] != '.')
-	 		@processed << '.'
+		  	@processed = @content.capitalize
 	 	end
 
 	 	@processed[0] = @processed[0].capitalize
+
+	 	@result = Post.new(:content => @processed)
 
   	end
 
