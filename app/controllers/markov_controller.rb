@@ -1,4 +1,8 @@
 class MarkovController < ApplicationController
+	#checks if letter
+	def letter?(lookAhead)
+		lookAhead =~ /[A-Za-z]/
+	end
 	#select a word from a given array of words and their probability distribution
 	def select_word(hash)
 		puts "SELECTING WORD"
@@ -32,14 +36,39 @@ class MarkovController < ApplicationController
 			else
 				if !trans_table.key?(prev) then
 					word = word_collection.to_a.sample
+
 					# #puts "**********0"
 					# puts words.join(",")
 					# word = words[2]
 					# puts "**********1"
 					# puts word
 					# puts "**********2"
+
+					#probabilities for punctuation
+					prob = rand()
+					if !letter?(prev) then
+
+					elsif prob < 0.14 then
+						word = "."
+					elsif prob < 0.37 then
+						word = ","
+					elsif prob < 0.52 then
+						word = ";"
+					end
 				else
 					word = select_word(trans_table[prev])
+
+					#probabilities
+					prob = rand()
+					if !letter?(prev) then
+
+					elsif prob < 0.005 then
+						word = "."
+					elsif prob < 0.03 then
+						word = ","
+					elsif prob < 0.04 then
+						word = "-"
+					end
 				end
 			end
 
@@ -57,6 +86,7 @@ class MarkovController < ApplicationController
 
 		return result
 	end
+
 
 	def process_line(entry, word_collection, trans_table, prior_prob)
 		newentry = entry.downcase.gsub(/[^a-z0-9\s]/i, '')
@@ -119,12 +149,11 @@ class MarkovController < ApplicationController
 	end
 
 
-	# always use this function
 	def generate(arr1, arr2)
 		require 'set'
 		#length can be random
-		blength = 25
-		length = rand(3) + blength
+		blength = 15
+		length = rand(5) + blength
 
 		#go through each array, separate into words, and create transition probabilities 
 		word_collection = Set.new
