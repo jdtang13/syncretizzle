@@ -424,6 +424,43 @@ helper_method :current_or_new_room
 		title = title.gsub(/[^a-z0-9\s]/i, '').split.map(&:capitalize)*' '
 		result = line_generate(length, word_collection, trans_table, prior_prob, bg_trans_table)
 
-		return [result, title]
-	end
+		processed = ""
+
+	 	#@processed.gsub!(" i ", " I ")
+
+	 	newline = "<br />"
+
+	 	min_line = 5
+	 	max_line = 10
+	 	rng = Random.new
+
+	 	# build lines slowly
+	 	current_line = ""
+	 	count = 0
+	 	i = 0
+	 	for word in result.split(" ")
+
+	 		if (word == "i")
+	 			word = "I"
+	 		end
+
+	 		current_line << word + " "
+
+	 		if (word.match(/[?.,;:-]/) or count > max_line)
+
+		 		current_line << newline
+	 			current_line[0] = current_line[0].capitalize
+	 			processed << current_line
+
+	 			current_line = ""
+	 			count = 0
+	 		end
+	 		count += 1
+	 		i += 1
+	 	end
+
+	 	processed.gsub!(/[,.;:-]? *<br \/> *$/, ".")
+
+			return [processed, title]
+		end
 end

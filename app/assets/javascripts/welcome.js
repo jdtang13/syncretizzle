@@ -295,7 +295,6 @@ $(function(){
 				fb_votes = base_votes;
 			}
 			if(snapshot.val() === 'final') {
-				console.log("FIRING AJAX");
 				lit_votes = base_votes;
 				window.obj = {};
 				obj.fb_data = fb_data;
@@ -303,7 +302,11 @@ $(function(){
 				obj.fb_votes = fb_votes;
 				obj.lit_votes = lit_votes;
 				$.post("/submit", {data2: JSON.stringify(window.obj)}, function(returnedData) {
-					console.log(returnedData);
+					$(".list").css("display", "none");
+					$("#header_result").css("display", "block");
+					$("#paragraph_result").css("display", "block");
+					$("#header_result").html(returnedData['title']);
+					$("#paragraph_result").html(returnedData['text']);
 				});
 			}
 			round = snapshot.val();
@@ -401,6 +404,8 @@ $(function(){
 	}
 
 	SyncApp.boot = function(options) {
+		$("#paragraph_result").css('display', 'none');
+		$("#header_result").css('display', 'none');
 		this.the_options = options;
 		this.user_initials = options.user_initials;
 		round = options.round;

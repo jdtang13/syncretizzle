@@ -85,7 +85,7 @@ class WelcomeController < ApplicationController
       puts arr2
 
   		response = generate2(arr1, arr2)
-  		render :json => {text: response}
+  		render :json => {text: response[0], title: response[1]}
   	end
 
   	# Note: you need to mash F5 for this strategy to work; does not update on-screen, must manually refresh.
