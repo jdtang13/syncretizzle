@@ -12,6 +12,19 @@ class User < ActiveRecord::Base
  
   belongs_to :room
 
+  def self.from_omniauth(auth, current) # note: current is current_or_guest_user input
+	  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+	    user.provider = auth.provider
+	    user.uid = auth.uid
+	    user.name = auth.info.name
+	    
+	    user.oauth_token = auth.credentials.token
+	    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+	    user.save!
+	  end
+  end
+
   def self.koala(auth)
     access_token = auth['token']
     facebook = Koala::Facebook::API.new(access_token)

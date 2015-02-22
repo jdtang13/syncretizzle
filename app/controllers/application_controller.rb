@@ -115,6 +115,9 @@ helper_method :current_or_guest_user
       # comment.user_id = current_user.id
       # comment.save!
     # end
+
+    current_user.room_id = guest_user.room_id
+    
   end
 
   def create_guest_user

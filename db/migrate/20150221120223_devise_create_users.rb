@@ -17,6 +17,11 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.belongs_to :room, index: true
 
       t.integer :room_id
+      t.integer :uid
+
+      t.string :name
+      t.string :provider
+      t.datetime :oauth_expires_at
 
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
@@ -56,6 +61,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
     add_index :users, :email,                :unique => true
     add_index :users, :reset_password_token, :unique => true
+    add_index :users, :oauth_token,   :unique => true
     # add_index :users, :confirmation_token,   :unique => true
     # add_index :users, :unlock_token,         :unique => true
     # add_index :users, :authentication_token, :unique => true

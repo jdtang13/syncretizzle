@@ -2,9 +2,6 @@ class WelcomeController < ApplicationController
 
   	def index
 
-  		#refresh()
-  		# ^^^note: don't do this, it only works if you mash f5
-
 	  	@user = current_or_guest_user
 	  	@room = current_room
 
@@ -40,11 +37,7 @@ class WelcomeController < ApplicationController
 	 	newline = "<br />"
 
 	 	min_line = 5
-	 	min_variance = 1
-
 	 	max_line = 10
-	 	max_variance = 3
-
 	 	rng = Random.new
 
 	 	# build lines slowly
@@ -62,9 +55,7 @@ class WelcomeController < ApplicationController
 	 		if (word.match(/[?.,;:-]/) or count > max_line)
 
 		 		current_line << newline
-
 	 			current_line[0] = current_line[0].capitalize
-
 	 			@processed << current_line
 
 	 			current_line = ""
